@@ -3,6 +3,7 @@ resource "aws_s3_bucket" "frontend" {
 }
 
 # 버킷 퍼블릭 액세스 차단
+# 프론트엔드 정적 파일 업로드 - CloudFront를 통해서만 접근 가능하도록 함
 resource "aws_s3_bucket_public_access_block" "frontend" {
   bucket = aws_s3_bucket.frontend.id
 
