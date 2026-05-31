@@ -12,3 +12,11 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
   ignore_public_acls      = true # 기존 퍼블릭 ACL 무시
   restrict_public_buckets = true # 퍼블릭 버킷 접근 제한
 }
+
+# 버킷 소유권 설정
+resource "aws_s3_bucket_ownership_controls" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
