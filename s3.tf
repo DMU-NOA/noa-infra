@@ -14,6 +14,7 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
 }
 
 # 버킷 소유권 설정
+# 버킷 소유자가 버킷 내 모든 오브젝트의 소유권을 가지므로 소유권 분쟁 차단
 resource "aws_s3_bucket_ownership_controls" "frontend" {
   bucket = aws_s3_bucket.frontend.id
   rule {
