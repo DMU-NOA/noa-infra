@@ -9,11 +9,13 @@ terraform {
   }
 }
 
+
 provider "aws" {
   region = var.aws_region
 }
 
 # CloudFront ACM 인증서용 provider
+# CloudFront는 ACM 인증서를 반드시 us-east-1에서 생성해야 연결 가능함
 provider "aws" {
   alias  = "us_east_1"
   region = "us-east-1"
