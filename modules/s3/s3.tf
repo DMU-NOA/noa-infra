@@ -13,6 +13,16 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
   restrict_public_buckets = true # 퍼블릭 버킷 접근 제한
 }
 
+# 버킷 버전 관리 설정
+# 파일 덮어쓰기·삭제 시 이전 버전 보존 - 실수로 인한 데이터 손실 복구 가능
+resource "aws_s3_bucket_versioning" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  versioning_configuration {
+    status = "Enabled" # 버전 관리 활성화 (Enabled / Suspended)
+  }
+}
+
 # 버킷 소유권 설정
 # 버킷 소유자가 버킷 내 모든 오브젝트의 소유권을 가지므로 소유권 분쟁 차단
 resource "aws_s3_bucket_ownership_controls" "frontend" {
