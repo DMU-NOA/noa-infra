@@ -9,3 +9,9 @@ output "bucket_arn" {
   description = "프론트엔드 S3 버킷 ARN"
   value       = aws_s3_bucket.frontend.arn
 }
+
+# 리전 도메인 - CloudFront 오리진 도메인으로 사용
+output "bucket_regional_domain_name" {
+  description = "프론트엔드 S3 버킷 리전 도메인명"
+  value       = aws_s3_bucket.frontend.bucket_regional_domain_name
+}
