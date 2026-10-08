@@ -18,6 +18,21 @@ output "frontend_bucket_id" {
   value       = module.s3.bucket_id
 }
 
+output "private_subnet_ids" {
+  description = "Private 서브넷 ID 목록"
+  value       = module.vpc.private_subnet_ids
+}
+
+output "public_subnet_ids" {
+  description = "Public 서브넷 ID 목록"
+  value       = module.vpc.public_subnet_ids
+}
+
+output "vpc_id" {
+  description = "VPC ID"
+  value       = module.vpc.vpc_id
+}
+
 # ======================================================
 # 예정 output 목록 (모듈 구현 완료 시 순차적으로 추가)
 # ======================================================

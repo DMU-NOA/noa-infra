@@ -1,3 +1,15 @@
+# VPC 모듈 - Public/Private 서브넷, NAT Gateway
+module "vpc" {
+  source = "./modules/vpc"
+
+  app                  = var.app
+  env                  = var.env
+  vpc_cidr             = var.vpc_cidr
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
+  azs                  = var.azs
+}
+
 # S3 모듈 - 프론트엔드 정적 파일 버킷
 module "s3" {
   source               = "./modules/s3"
