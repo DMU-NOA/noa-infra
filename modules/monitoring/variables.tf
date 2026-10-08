@@ -42,3 +42,39 @@ variable "rds_connections_threshold" {
   default     = 100
   description = "RDS DB 연결 수 알림 임계값"
 }
+
+variable "gc_prom_url"  { type = string }
+variable "gc_prom_user" { type = string }
+variable "gc_loki_url"  { type = string }
+variable "gc_loki_user" { type = string }
+
+variable "gc_token_param_name" {
+  type        = string
+  default     = "/monitoring/grafana-cloud-token"
+  description = "Grafana Cloud 토큰이 저장된 SSM 파라미터 이름"
+}
+
+variable "app_metrics_port" {
+  type    = number
+  default = 8080
+}
+
+variable "app_metrics_path" {
+  type    = string
+  default = "/metrics"
+}
+
+variable "app_log_dir" {
+  type    = string
+  default = "/var/log/app"
+}
+
+variable "ec2_role_names" {
+  type        = map(string)
+  description = "인스턴스별 IAM Role 이름 (SSM 토큰 읽기 정책을 붙일 대상)"
+}
+
+variable "region" {
+  type    = string
+  default = "ap-northeast-2"
+}

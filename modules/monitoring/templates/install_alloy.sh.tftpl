@@ -1,0 +1,46 @@
+#!/bin/bash
+set -euxo pipefail
+
+# Alloy 설치 (최초 1회) - Amazon Linux 2023 기준
+if ! command -v alloy >/dev/null 2>&1; then
+  cat > /etc/yum.repos.d/grafana.repo <<'EOF'
+[grafana]
+name=grafana
+baseurl=https://rpm.grafana.com
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOF
+  dnf install -y alloy
+fi
+
+# 설정 파일
+cat > /etc/alloy/config.alloy <<'ALLOYEOF'
+${config_alloy}
+ALLOYEOF
+
+# 토큰은 SSM에서 읽어 별도 env 파일에 저장
+TOKEN=$(aws ssm get-parameter --name "${token_param}" --with-decryption \
+  --region "${region}" --query Parameter.Value --output text)
+
+umask 077
+cat > /etc/alloy/gc.env <<EOF
+GC_API_TOKEN=$TOKEN
+GC_PROM_URL=${prom_url}
+GC_PROM_USER=${prom_user}
+GC_LOKI_URL=${loki_url}
+GC_LOKI_USER=${loki_user}
+EOF
+
+mkdir -p /etc/systemd/system/alloy.service.d
+cat > /etc/systemd/system/alloy.service.d/gc.conf <<'EOF'
+[Service]
+EnvironmentFile=/etc/alloy/gc.env
+EOF
+
+systemctl daemon-reload
+systemctl enable alloy
+systemctl restart alloy
