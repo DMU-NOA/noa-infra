@@ -20,12 +20,14 @@ variable "bucket_regional_domain_name" {
 
 variable "certificate_arn" {
   type        = string
-  description = "CloudFront HTTPS용 ACM 인증서 ARN (us-east-1)"
+  description = "CloudFront HTTPS용 ACM 인증서 ARN (us-east-1). domain_name 미지정 시 사용 안 함"
+  default     = null
 }
 
 variable "domain_name" {
   type        = string
-  description = "CloudFront 배포에 연결할 커스텀 도메인"
+  description = "CloudFront 배포에 연결할 커스텀 도메인. 미지정 시 CloudFront 기본 도메인(*.cloudfront.net)과 기본 인증서를 사용"
+  default     = null
 }
 
 variable "env" {
