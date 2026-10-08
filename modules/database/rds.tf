@@ -8,18 +8,18 @@ resource "aws_db_subnet_group" "this" {
   }
 }
 
-# RDS 인스턴스 - MySQL 기반
+# RDS 인스턴스 - PostgreSQL 기반
 resource "aws_db_instance" "this" {
   identifier        = local.prefix         # 인스턴스 식별자
-  engine            = "mysql"              # 데이터베이스 엔진
+  engine            = "postgres"           # 데이터베이스 엔진
   instance_class    = var.instance_type    # 인스턴스 사양
   allocated_storage = 20                   # 스토리지 용량 (GB)
   storage_type      = "gp2"               # 범용 SSD 스토리지 타입
   multi_az          = var.multi_az         # 가용 영역 배포 여부
 
   db_name  = var.app
-  username = var.MYSQL_USER
-  password = var.MYSQL_PASSWORD
+  username = var.POSTGRES_USER
+  password = var.POSTGRES_PASSWORD
 
   db_subnet_group_name   = aws_db_subnet_group.this.name  # 위에서 정의한 서브넷 그룹 연결
   vpc_security_group_ids = [aws_security_group.db.id]     # DB 전용 보안 그룹 연결

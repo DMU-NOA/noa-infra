@@ -20,11 +20,11 @@ variable "instance_type" {
   type = string
 }
 
-variable "MYSQL_USER" {
+variable "POSTGRES_USER" {
   type = string
 }
 
-variable "MYSQL_PASSWORD" {
+variable "POSTGRES_PASSWORD" {
   type = string
 }
 
