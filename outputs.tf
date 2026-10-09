@@ -28,6 +28,11 @@ output "public_subnet_ids" {
   value       = module.vpc.public_subnet_ids
 }
 
+output "sandbox_instance_id" {
+  description = "DevOps 테스트용 EC2 인스턴스 ID (aws ssm start-session --target 에 사용)"
+  value       = aws_instance.sandbox.id
+}
+
 output "vpc_id" {
   description = "VPC ID"
   value       = module.vpc.vpc_id
