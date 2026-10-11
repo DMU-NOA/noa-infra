@@ -9,4 +9,5 @@ module "acm" {
   app                       = var.app
   domain_name               = var.domain_name
   subject_alternative_names = var.subject_alternative_names
+  alb_domain_name           = var.alb_domain_name
 }
