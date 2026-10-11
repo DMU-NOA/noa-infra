@@ -7,13 +7,14 @@ variable "env" {
   type = string
 }
 
-variable "domain" {
-  type = string
-}
-
 # -- RDS --
 variable "database_port" {
   type = string
+}
+
+variable "db_name" {
+  type        = string
+  description = "RDS에 생성할 데이터베이스 이름"
 }
 
 variable "instance_type" {
@@ -25,7 +26,8 @@ variable "POSTGRES_USER" {
 }
 
 variable "POSTGRES_PASSWORD" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "multi_az" {

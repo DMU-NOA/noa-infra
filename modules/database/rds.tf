@@ -10,22 +10,22 @@ resource "aws_db_subnet_group" "this" {
 
 # RDS 인스턴스 - PostgreSQL 기반
 resource "aws_db_instance" "this" {
-  identifier        = local.prefix         # 인스턴스 식별자
-  engine            = "postgres"           # 데이터베이스 엔진
-  instance_class    = var.instance_type    # 인스턴스 사양
-  allocated_storage = 20                   # 스토리지 용량 (GB)
-  storage_type      = "gp2"               # 범용 SSD 스토리지 타입
-  multi_az          = var.multi_az         # 가용 영역 배포 여부
+  identifier        = local.prefix      # 인스턴스 식별자
+  engine            = "postgres"        # 데이터베이스 엔진
+  instance_class    = var.instance_type # 인스턴스 사양
+  allocated_storage = 20                # 스토리지 용량 (GB)
+  storage_type      = "gp2"             # 범용 SSD 스토리지 타입
+  multi_az          = var.multi_az      # 가용 영역 배포 여부
 
-  db_name  = var.app
+  db_name  = var.db_name
   username = var.POSTGRES_USER
   password = var.POSTGRES_PASSWORD
 
-  db_subnet_group_name   = aws_db_subnet_group.this.name  # 위에서 정의한 서브넷 그룹 연결
-  vpc_security_group_ids = [aws_security_group.db.id]     # DB 전용 보안 그룹 연결
+  db_subnet_group_name   = aws_db_subnet_group.this.name # 위에서 정의한 서브넷 그룹 연결
+  vpc_security_group_ids = [aws_security_group.db.id]    # DB 전용 보안 그룹 연결
 
-  skip_final_snapshot = true   # 인스턴스 삭제 시 최종 스냅샷 생략
-  publicly_accessible = false  # 퍼블릭 인터넷 접근 차단
+  skip_final_snapshot = true  # 인스턴스 삭제 시 최종 스냅샷 생략
+  publicly_accessible = false # 퍼블릭 인터넷 접근 차단
 
   tags = merge(
     local.tags, {
@@ -45,7 +45,7 @@ resource "aws_security_group" "db" {
     from_port       = var.database_port
     to_port         = var.database_port
     protocol        = local.tcp_protocol
-    security_groups = [var.app_security_group_id]  # 앱 서버 보안 그룹 ID 참조
+    security_groups = [var.app_security_group_id] # 앱 서버 보안 그룹 ID 참조
   }
 
   tags = merge(

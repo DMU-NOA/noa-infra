@@ -10,6 +10,46 @@ module "vpc" {
   azs                  = var.azs
 }
 
+# Backend 모듈 - EC2 + ALB
+module "backend" {
+  source = "./modules/backend"
+
+  app                   = var.app
+  env                   = var.env
+  ami                   = var.ami
+  backend_instance_type = var.backend_instance_type
+  backend_port          = var.backend_port
+  user_data             = var.user_data
+  certificate_arn       = var.alb_certificate_arn
+  vpc_id                = module.vpc.vpc_id
+  public_subnet_ids     = module.vpc.public_subnet_ids
+  private_subnet_ids    = module.vpc.private_subnet_ids
+}
+
+# Database 모듈 - RDS PostgreSQL
+module "database" {
+  source = "./modules/database"
+
+  app                   = var.app
+  env                   = var.env
+  db_name               = var.db_name
+  database_port         = var.database_port
+  instance_type         = var.rds_instance_type
+  POSTGRES_USER         = var.postgres_user
+  POSTGRES_PASSWORD     = var.postgres_password
+  app_security_group_id = module.backend.app_security_group_id
+  vpc_id                = module.vpc.vpc_id
+  private_subnet_ids    = module.vpc.private_subnet_ids
+}
+
+# ECR 모듈 - 백엔드 컨테이너 이미지 저장소
+module "ecr" {
+  source = "./modules/ecr"
+
+  app = var.app
+  env = var.env
+}
+
 # S3 모듈 - 프론트엔드 정적 파일 버킷
 module "s3" {
   source               = "./modules/s3"
