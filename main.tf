@@ -26,4 +26,6 @@ module "cloudfront" {
   bucket_id                   = module.s3.bucket_id
   bucket_arn                  = module.s3.bucket_arn
   bucket_regional_domain_name = module.s3.bucket_regional_domain_name
+  domain_name                 = var.domain_name
+  certificate_arn             = var.cloudfront_certificate_arn
 }

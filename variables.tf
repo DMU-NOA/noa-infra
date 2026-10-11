@@ -13,6 +13,18 @@ variable "azs" {
   description = "사용할 가용 영역 목록"
 }
 
+variable "cloudfront_certificate_arn" {
+  type        = string
+  description = "CloudFront HTTPS용 ACM 인증서 ARN (us-east-1, envs/global에서 발급한 값)"
+  default     = null
+}
+
+variable "domain_name" {
+  type        = string
+  description = "CloudFront에 연결할 커스텀 도메인"
+  default     = null
+}
+
 variable "env" {
   type        = string
   description = "배포 환경 (dev, prod)"
