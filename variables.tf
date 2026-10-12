@@ -39,6 +39,11 @@ variable "cloudfront_certificate_arn" {
   default     = null
 }
 
+variable "data_bucket_name" {
+  type        = string
+  description = "데이터 파이프라인 초기 데이터(.sql 등) 저장용 S3 버킷명"
+}
+
 variable "database_port" {
   type        = string
   description = "RDS 포트"

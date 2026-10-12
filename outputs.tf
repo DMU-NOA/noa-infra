@@ -18,6 +18,11 @@ output "cloudfront_distribution_id" {
   value       = module.cloudfront.distribution_id
 }
 
+output "data_bucket_id" {
+  description = "데이터 파이프라인 초기 데이터(.sql 등) 저장용 S3 버킷 ID"
+  value       = aws_s3_bucket.data.id
+}
+
 output "ecr_repository_url" {
   description = "백엔드 ECR 리포지토리 URL (이미지 push/pull 주소)"
   value       = module.ecr.repository_url
