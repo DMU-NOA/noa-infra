@@ -48,10 +48,11 @@ output "public_subnet_ids" {
   value       = module.vpc.public_subnet_ids
 }
 
-output "rds_host" {
-  description = "RDS 엔드포인트 주소 (백엔드 .env의 DB_HOST에 사용)"
-  value       = module.database.host
-}
+# RDS 사용 안 함으로 주석 처리
+# output "rds_host" {
+#   description = "RDS 엔드포인트 주소 (백엔드 .env의 DB_HOST에 사용)"
+#   value       = module.database.host
+# }
 
 output "sandbox_instance_id" {
   description = "DevOps 테스트용 EC2 인스턴스 ID (aws ssm start-session --target 에 사용)"

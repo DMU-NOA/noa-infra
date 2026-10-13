@@ -36,6 +36,11 @@ variable "certificate_arn" {
   description = "HTTPS 리스너에 사용할 ACM 인증서 ARN"
 }
 
+variable "data_bucket_arn" {
+  type        = string
+  description = "초기 데이터(.sql 등) 다운로드용 S3 버킷 ARN"
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "Backend EC2를 배치할 Private 서브넷 ID 목록"

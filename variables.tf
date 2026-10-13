@@ -44,15 +44,16 @@ variable "data_bucket_name" {
   description = "데이터 파이프라인 초기 데이터(.sql 등) 저장용 S3 버킷명"
 }
 
-variable "database_port" {
-  type        = string
-  description = "RDS 포트"
-}
+# RDS 사용 안 함(Postgres를 Backend EC2에 직접 설치)으로 주석 처리. 나중에 다시 쓸 수 있어 남겨둠.
+# variable "database_port" {
+#   type        = string
+#   description = "RDS 포트"
+# }
 
-variable "db_name" {
-  type        = string
-  description = "RDS에 생성할 데이터베이스 이름"
-}
+# variable "db_name" {
+#   type        = string
+#   description = "RDS에 생성할 데이터베이스 이름"
+# }
 
 variable "domain_name" {
   type        = string
@@ -69,16 +70,16 @@ variable "frontend_bucket_name" {
   type = string
 }
 
-variable "postgres_password" {
-  type        = string
-  description = "RDS PostgreSQL 비밀번호"
-  sensitive   = true
-}
+# variable "postgres_password" {
+#   type        = string
+#   description = "RDS PostgreSQL 비밀번호"
+#   sensitive   = true
+# }
 
-variable "postgres_user" {
-  type        = string
-  description = "RDS PostgreSQL 사용자명"
-}
+# variable "postgres_user" {
+#   type        = string
+#   description = "RDS PostgreSQL 사용자명"
+# }
 
 variable "private_subnet_cidrs" {
   type        = list(string)
@@ -90,10 +91,10 @@ variable "public_subnet_cidrs" {
   description = "Public 서브넷 CIDR 목록"
 }
 
-variable "rds_instance_type" {
-  type        = string
-  description = "RDS 인스턴스 타입"
-}
+# variable "rds_instance_type" {
+#   type        = string
+#   description = "RDS 인스턴스 타입"
+# }
 
 variable "user_data" {
   type        = string

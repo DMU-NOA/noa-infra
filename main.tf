@@ -21,26 +21,27 @@ module "backend" {
   backend_port          = var.backend_port
   user_data             = var.user_data
   certificate_arn       = var.alb_certificate_arn
+  data_bucket_arn       = aws_s3_bucket.data.arn
   vpc_id                = module.vpc.vpc_id
   public_subnet_ids     = module.vpc.public_subnet_ids
   private_subnet_ids    = module.vpc.private_subnet_ids
 }
 
-# Database 모듈 - RDS PostgreSQL
-module "database" {
-  source = "./modules/database"
-
-  app                   = var.app
-  env                   = var.env
-  db_name               = var.db_name
-  database_port         = var.database_port
-  instance_type         = var.rds_instance_type
-  POSTGRES_USER         = var.postgres_user
-  POSTGRES_PASSWORD     = var.postgres_password
-  app_security_group_id = module.backend.app_security_group_id
-  vpc_id                = module.vpc.vpc_id
-  private_subnet_ids    = module.vpc.private_subnet_ids
-}
+# Database 모듈 - RDS PostgreSQL (사용 안 함: Postgres를 Backend EC2에 직접 설치하는 걸로 변경)
+# module "database" {
+#   source = "./modules/database"
+#
+#   app                   = var.app
+#   env                   = var.env
+#   db_name               = var.db_name
+#   database_port         = var.database_port
+#   instance_type         = var.rds_instance_type
+#   POSTGRES_USER         = var.postgres_user
+#   POSTGRES_PASSWORD     = var.postgres_password
+#   app_security_group_id = module.backend.app_security_group_id
+#   vpc_id                = module.vpc.vpc_id
+#   private_subnet_ids    = module.vpc.private_subnet_ids
+# }
 
 # ECR 모듈 - 백엔드 컨테이너 이미지 저장소
 module "ecr" {
