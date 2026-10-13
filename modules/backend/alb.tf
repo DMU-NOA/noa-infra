@@ -97,3 +97,21 @@ resource "aws_lb_listener_rule" "balance" {
     }
   }
 }
+
+# -- Listener Rule: /(정확히 루트) → 밸런스 게임 타겟그룹 (8001)
+# 프론트엔드가 밸런스 게임 HTML 페이지를 iframe으로 직접 띄우는 용도
+resource "aws_lb_listener_rule" "balance_root" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 11
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.balance.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/"]
+    }
+  }
+}
