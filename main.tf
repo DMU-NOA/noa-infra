@@ -19,6 +19,7 @@ module "backend" {
   ami                   = var.ami
   backend_instance_type = var.backend_instance_type
   backend_port          = var.backend_port
+  balance_port          = var.balance_port
   user_data             = var.user_data
   certificate_arn       = var.alb_certificate_arn
   data_bucket_arn       = aws_s3_bucket.data.arn

@@ -30,6 +30,26 @@ resource "aws_lb_target_group_attachment" "app" {
   port             = var.backend_port
 }
 
+# -- Target Group (밸런스 게임, 같은 인스턴스의 별도 프로세스)
+resource "aws_lb_target_group" "balance" {
+  name     = "${local.prefix}-balance-tg"
+  port     = var.balance_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    path = "/"
+  }
+
+  tags = merge(local.tags, { Name = "${local.prefix}-balance-tg" })
+}
+
+resource "aws_lb_target_group_attachment" "balance" {
+  target_group_arn = aws_lb_target_group.balance.arn
+  target_id        = aws_instance.app.id
+  port             = var.balance_port
+}
+
 # -- Listener: HTTP (80) → HTTPS 리다이렉트
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.this.arn
@@ -58,5 +78,22 @@ resource "aws_lb_listener" "https" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
+  }
+}
+
+# -- Listener Rule: /api/game/* → 밸런스 게임 타겟그룹 (8001)
+resource "aws_lb_listener_rule" "balance" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.balance.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/game/*"]
+    }
   }
 }

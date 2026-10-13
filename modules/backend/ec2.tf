@@ -39,6 +39,13 @@ resource "aws_security_group" "app" {
     security_groups = [aws_security_group.alb.id]
   }
 
+  ingress {
+    from_port       = var.balance_port
+    to_port         = var.balance_port
+    protocol        = local.tcp_protocol
+    security_groups = [aws_security_group.alb.id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

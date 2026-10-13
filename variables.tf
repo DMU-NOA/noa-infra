@@ -33,6 +33,11 @@ variable "backend_port" {
   description = "Backend 애플리케이션 포트"
 }
 
+variable "balance_port" {
+  type        = number
+  description = "밸런스 게임 애플리케이션 포트 (같은 인스턴스의 별도 프로세스)"
+}
+
 variable "cloudfront_certificate_arn" {
   type        = string
   description = "CloudFront HTTPS용 ACM 인증서 ARN (us-east-1, envs/global에서 발급한 값)"
