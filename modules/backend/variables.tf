@@ -25,6 +25,11 @@ variable "backend_port" {
   description = "Backend 애플리케이션 포트"
 }
 
+variable "balance_port" {
+  type        = number
+  description = "밸런스 게임 애플리케이션 포트 (같은 인스턴스의 별도 프로세스)"
+}
+
 variable "user_data" {
   type        = string
   description = "EC2 User Data 스크립트"
@@ -34,6 +39,11 @@ variable "user_data" {
 variable "certificate_arn" {
   type        = string
   description = "HTTPS 리스너에 사용할 ACM 인증서 ARN"
+}
+
+variable "data_bucket_arn" {
+  type        = string
+  description = "초기 데이터(.sql 등) 다운로드용 S3 버킷 ARN"
 }
 
 variable "private_subnet_ids" {

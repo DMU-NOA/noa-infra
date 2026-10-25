@@ -11,7 +11,7 @@ resource "aws_cloudfront_origin_access_control" "this" {
 resource "aws_cloudfront_distribution" "this" {
   enabled             = true
   default_root_object = "index.html"
-  aliases             = [var.domain_name]
+  aliases             = var.domain_name == null ? [] : [var.domain_name]
   price_class         = var.price_class
 
   origin {
@@ -33,15 +33,15 @@ resource "aws_cloudfront_distribution" "this" {
 
   # SPA 라우팅 - 404/403은 index.html로 리다이렉트
   custom_error_response {
-    error_code            = 403
-    response_code         = 200
-    response_page_path    = "/index.html"
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
   }
 
   custom_error_response {
-    error_code            = 404
-    response_code         = 200
-    response_page_path    = "/index.html"
+    error_code         = 404
+    response_code      = 200
+    response_page_path = "/index.html"
   }
 
   restrictions {
@@ -51,9 +51,10 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = var.certificate_arn
-    ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2021"
+    cloudfront_default_certificate = var.domain_name == null
+    acm_certificate_arn            = var.domain_name == null ? null : var.certificate_arn
+    ssl_support_method             = var.domain_name == null ? null : "sni-only"
+    minimum_protocol_version       = var.domain_name == null ? null : "TLSv1.2_2021"
   }
 
   tags = {
